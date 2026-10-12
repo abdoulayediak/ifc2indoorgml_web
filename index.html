@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ifc2indoorgml (web version)</title>
+  <link rel="stylesheet" href="/src/style.css" />
+</head>
+
+<body>
+  <div id="container"></div>
+
+  <!-- Left Sidebar for Hierarchy & Layers -->
+  <div id="sidebar-container">
+    <div class="sidebar-header">
+      <h1>ifc2indoorgml <span class="app-badge">Web</span></h1>
+    </div>
+
+    <div class="top-actions-row">
+      <label class="btn btn-upload btn-sm" for="file-input" id="lbl-upload">
+        <span>📂 Upload IFC</span>
+        <input type="file" id="file-input" accept=".ifc" style="display: none;" />
+      </label>
+      <button id="btn-reset-view" class="btn btn-reset btn-sm" style="display: none;" title="Reset 3D camera view">
+        🎯 Reset View
+      </button>
+    </div>
+
+    <div class="tabs">
+      <button class="tab-btn active" data-tab="tab-hierarchy">Hierarchy</button>
+      <button class="tab-btn" data-tab="tab-layers">Layers</button>
+    </div>
+
+    <!-- Tab 1: Hierarchy -->
+    <div id="tab-hierarchy" class="tab-content active">
+      <div class="section-title">Spatial Hierarchy</div>
+      <div class="tree-search-wrapper">
+        <input type="text" id="hierarchy-search" placeholder="Search spaces & elements..." />
+      </div>
+      <div id="hierarchy-tree" class="tree-view">
+        <div class="empty-message">Upload an IFC model to view the hierarchy tree.</div>
+      </div>
+    </div>
+
+    <!-- Tab 2: Layers -->
+    <div id="tab-layers" class="tab-content">
+      <!-- Selected Space Inspector & Quick-Add -->
+      <div id="selected-space-card" class="selected-space-card">
+        <div class="selected-space-header">
+          <span class="selected-space-title">🎯 Selected Object</span>
+          <span id="selected-space-badge" class="badge-none">None</span>
+        </div>
+        <div id="selected-space-details" class="selected-space-details">
+          Click any space, opening, or element in the Hierarchy tree to inspect it.
+        </div>
+        <div id="selected-space-actions" class="selected-space-actions" style="display: none;">
+          <select id="quick-assign-layer-select" class="select-field select-sm" title="Choose layer to assign"></select>
+          <button id="btn-quick-add-to-layer" class="btn btn-sm btn-upload">+ Add to Layer</button>
+        </div>
+      </div>
+
+      <!-- Process 1: Thematic Layers -->
+      <div class="section-title">1. Thematic Layers (Process 1)</div>
+      
+      <!-- List of Layers / Default Mode message -->
+      <div id="layers-list" class="layers-list-container">
+        <!-- Will be populated dynamically -->
+      </div>
+
+      <!-- Create Layer Form from Hierarchy -->
+      <div class="add-layer-card">
+        <div class="layer-preset-container">
+          <div class="layer-preset-header">
+            <span class="layer-preset-title">Select Preset Categories (Multi-Select)</span>
+            <div class="layer-preset-actions">
+              <button type="button" id="btn-preset-all" class="btn-preset-tool" title="Check all items in hierarchy">All</button>
+              <button type="button" id="btn-preset-clear" class="btn-preset-tool" title="Uncheck all items in hierarchy">Clear</button>
+            </div>
+          </div>
+          <div class="layer-preset-buttons">
+            <button type="button" class="btn-preset active" data-category="spaces" title="Toggle spaces (IFCSPACE)">🛋️ Spaces</button>
+            <button type="button" class="btn-preset" data-category="furniture" title="Toggle furniture elements (IFCFURNITURE etc.)">🪑 Furniture</button>
+            <button type="button" class="btn-preset" data-category="contained" title="Toggle all elements within spaces (IfcRelContained)">📦 In Spaces</button>
+            <button type="button" class="btn-preset" data-category="equipment" title="Toggle MEP & equipment elements">🔌 Equipment</button>
+            <button type="button" class="btn-preset active" data-category="openings" title="Toggle openings/doors/windows">🚪 Openings</button>
+            <button type="button" class="btn-preset" data-category="structure" title="Toggle walls, slabs, structural elements">🧱 Structure</button>
+          </div>
+        </div>
+        <div class="add-layer-form" style="margin-bottom:0;">
+          <input type="text" id="new-layer-name" placeholder="Layer Name (e.g. Spaces, Furniture)" />
+          <select id="new-layer-theme" class="select-field">
+            <option value="Physical" selected>Theme: Physical</option>
+            <option value="Virtual">Theme: Virtual</option>
+            <option value="Tags">Theme: Tags</option>
+            <option value="Unknown">Theme: Unknown</option>
+          </select>
+          <button id="btn-add-layer" class="btn btn-upload btn-sm">➕ Create Layer</button>
+        </div>
+      </div>
+
+      <!-- Process 2: InterLayerConnection (SVO Builder) -->
+      <div class="section-title" style="margin-top: 10px;">2. InterLayerConnection (Process 2: SVO Builder)</div>
+      
+      <div id="ilc-not-enough-layers" class="empty-message" style="display: none;">
+        🔒 InterLayerConnection requires at least 2 ThematicLayers.<br />
+        <span style="font-size:0.7rem; color:#94a3b8;">Currently <strong id="ilc-layer-count">0</strong> custom layer(s) defined. Use Process 1 above to create layers first.</span>
+      </div>
+
+      <div id="ilc-builder-container" class="connection-form">
+        <!-- Scope Toggle -->
+        <div class="svo-scope-row">
+          <span class="svo-scope-label">Scope:</span>
+          <label class="radio-label">
+            <input type="radio" name="ilc-scope" value="space" checked /> Space / Cell Level
+          </label>
+          <label class="radio-label">
+            <input type="radio" name="ilc-scope" value="layer" /> Whole Layer Level
+          </label>
+        </div>
+
+        <!-- Subject Block (Index 1) -->
+        <div class="svo-block svo-subject-block">
+          <div class="svo-block-header">
+            <span class="svo-role-badge badge-subject">1. Subject (Index 1)</span>
+          </div>
+          <select id="ilc-from-layer" class="select-field" title="Subject Layer"></select>
+          <div id="ilc-subject-node-wrap" class="svo-node-wrap">
+            <select id="ilc-from-node" class="select-field" title="Subject Space / Cell"></select>
+          </div>
+        </div>
+
+        <!-- Verb Block (Topological Expression) -->
+        <div class="svo-block svo-verb-block">
+          <div class="svo-block-header">
+            <span class="svo-role-badge badge-verb">2. Verb (Topological Relation)</span>
+          </div>
+          <select id="ilc-topo" class="select-field">
+            <option value="Contains">Contains (Subject contains Object)</option>
+            <option value="Overlaps" selected>Overlaps (Subject overlaps with Object)</option>
+            <option value="Equals">Equals (Subject equals Object)</option>
+            <option value="Within">Within (Subject is inside Object)</option>
+            <option value="Crosses">Crosses (Subject crosses Object)</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+
+        <!-- Object Block (Index 2) -->
+        <div class="svo-block svo-object-block">
+          <div class="svo-block-header">
+            <span class="svo-role-badge badge-object">3. Object (Index 2)</span>
+          </div>
+          <select id="ilc-to-layer" class="select-field" title="Object Layer"></select>
+          <div id="ilc-object-node-wrap" class="svo-node-wrap">
+            <select id="ilc-to-node" class="select-field" title="Object Space / Cell"></select>
+          </div>
+        </div>
+
+        <div class="form-group" style="margin-top: 4px;">
+          <input type="text" id="ilc-comment" placeholder="Comment (optional, e.g. Shared boundary)" class="input-field" />
+        </div>
+
+        <!-- Live SVO Sentence Preview -->
+        <div id="ilc-svo-preview" class="svo-preview-box">
+          💬 <em>Select layers and spaces to preview SVO statement...</em>
+        </div>
+
+        <button id="btn-add-ilc" class="btn btn-generate btn-sm" style="width: 100%;">Add SVO Connection</button>
+      </div>
+
+      <div class="section-title" style="margin-top: 10px;">Connections List</div>
+      <div id="ilc-list" class="ilc-list-container">
+        <!-- Active connections list -->
+      </div>
+    </div>
+
+    <!-- Unified Network Settings & Actions in one compact box at the bottom -->
+    <div class="network-action-card">
+      <div class="network-card-header">
+        <span class="card-title">Network & Export</span>
+        <label class="checkbox-label" title="Use bounding box intersections to connect spaces and openings">
+          <input type="checkbox" id="checkbox-box-intersection" checked> Box Intersection
+        </label>
+      </div>
+      <div class="action-buttons-row">
+        <button id="btn-generate-network" class="btn btn-generate btn-sm" disabled title="Generate internal network">
+          ⚡ Generate
+        </button>
+        <button id="btn-export-indoorgml" class="btn btn-export btn-sm" disabled title="Export to IndoorGML 2.0 XML">
+          💾 Export GML
+        </button>
+      </div>
+      <div id="status-message"></div>
+    </div>
+  </div>
+
+  <script type="module" src="/src/main.ts"></script>
+</body>
+
+</html>
