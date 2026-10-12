@@ -6,13 +6,13 @@
 [![Three.js](https://img.shields.io/badge/Three.js-r183-black.svg)](https://threejs.org/)
 [![Vite](https://img.shields.io/badge/Vite-5.4-646CFF.svg)](https://vitejs.dev/)
 
-> **A 100% client-side, browser-based converter and visualizer transforming Industry Foundation Classes (IFC) BIM models into OGC IndoorGML 2.0 XML with Thematic Layers and InterLayer Connections.**
+> **A 100% client-side, browser-based converter and visualizer transforming Industry Foundation Classes (IFC) BIM models into OGC IndoorGML 2.0 XML with Thematic Layers and InterLayer Connections support.**
 
 Zero installations, zero server uploads, zero backend data leakage—all IFC geometry parsing, spatial hierarchy extraction, dual network generation, and IndoorGML 2.0 serialization happen entirely inside your web browser.
 
 ---
 
-## 🌟 Key Features
+## Key Features
 
 ### 1. 100% Client-Side BIM Processing
 - Powered by [`web-ifc`](https://github.com/ThatOpen/engine_web-ifc) and [`@thatopen/components`](https://github.com/ThatOpen/engine_components).
@@ -62,7 +62,7 @@ Decoupled into two dedicated, standards-compliant processes:
 
 ---
 
-## 📐 IndoorGML 2.0 Schema Conformance
+## IndoorGML 2.0 Schema Conformance
 
 The exported XML strictly complies with official OGC IndoorGML 2.0 XML schemas:
 - **`IndoorGML_core.xsd`**:
@@ -77,7 +77,7 @@ The exported XML strictly complies with official OGC IndoorGML 2.0 XML schemas:
 
 ---
 
-## 🚀 Quick Start
+## Quick Start
 
 ### Prerequisites
 - [Node.js](https://nodejs.org/) (version 18 or higher recommended)
@@ -113,7 +113,7 @@ npm run preview
 
 ---
 
-## 📖 Step-by-Step Walkthrough
+## Step-by-Step Walkthrough
 
 1. **Upload an IFC Model**:
    - Click **📁 Upload IFC** and pick any `.ifc` file (a sample [`fzk-haus.ifc`](./fzk-haus.ifc) is included in the root directory for quick testing).
@@ -135,7 +135,7 @@ npm run preview
 
 ---
 
-## 📁 Repository Structure
+## Repository Structure
 
 ```
 ifc2indoorgml_web/
@@ -160,7 +160,7 @@ ifc2indoorgml_web/
 
 ---
 
-## 🛠️ Technology Stack
+## Technology Stack
 
 | Component | Library / Standard |
 |---|---|
@@ -172,13 +172,13 @@ ifc2indoorgml_web/
 
 ---
 
-## 📄 License
+## License
 
 This project is licensed under the [MIT License](LICENSE) - see the [LICENSE](LICENSE) file for details.
 
 ---
 
-## 🤝 Acknowledgements
+## Acknowledgements
 
 - **OGC IndoorGML Standards Working Group (SWG)** for the IndoorGML 2.0 standard specifications.
 - **ThatOpen Company** (formerly IFC.js) for the high-performance WebAssembly IFC parsing engine.
