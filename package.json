@@ -1,7 +1,7 @@
 {
     "name": "ifc2indoorgml-web",
     "version": "1.0.0",
-    "description": "Client-side IFC to OGC IndoorGML 2.0 converter with Multi-Layer Space Model (MLSM) and interactive 3D topological network visualization",
+    "description": "Client-side IFC to OGC IndoorGML 2.0 converter with Thematic Layers, InterLayer Connections, and interactive 3D topological network visualization",
     "private": false,
     "license": "MIT",
     "type": "module",

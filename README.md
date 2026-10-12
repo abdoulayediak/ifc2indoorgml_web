@@ -6,7 +6,7 @@
 [![Three.js](https://img.shields.io/badge/Three.js-r183-black.svg)](https://threejs.org/)
 [![Vite](https://img.shields.io/badge/Vite-5.4-646CFF.svg)](https://vitejs.dev/)
 
-> **A 100% client-side, browser-based converter and visualizer transforming Industry Foundation Classes (IFC) BIM models into OGC IndoorGML 2.0 XML with the Multi-Layer Space Model (MLSM).**
+> **A 100% client-side, browser-based converter and visualizer transforming Industry Foundation Classes (IFC) BIM models into OGC IndoorGML 2.0 XML with Thematic Layers and InterLayer Connections.**
 
 Zero installations, zero server uploads, zero backend data leakage—all IFC geometry parsing, spatial hierarchy extraction, dual network generation, and IndoorGML 2.0 serialization happen entirely inside your web browser.
 
@@ -36,7 +36,7 @@ Zero installations, zero server uploads, zero backend data leakage—all IFC geo
   - `[All]` / `[Clear]`
 - Instantly isolates or combines categories in both the hierarchy tree and the 3D viewport.
 
-### 4. OGC IndoorGML 2.0 Multi-Layer Space Model (MLSM)
+### 4. OGC IndoorGML 2.0 Thematic Layers & InterLayer Connections
 Decoupled into two dedicated, standards-compliant processes:
 - **Process 1: Thematic Layers Manager**:
   - Independent from physical building storeys/floors.
@@ -143,8 +143,6 @@ ifc2indoorgml_web/
 ├── package.json                 # Project dependencies and npm scripts
 ├── tsconfig.json                # TypeScript compiler configuration
 ├── vite.config.ts               # Vite bundler configuration
-├── IndoorGML_core.xsd           # OGC IndoorGML 2.0 Core XML Schema
-├── IndoorGML_navi.xsd           # OGC IndoorGML 2.0 Navigation XML Schema
 ├── fzk-haus.ifc                 # Sample IFC model (Karlsruhe Institute of Technology)
 ├── public/                      # Static assets and WebAssembly binaries
 └── src/

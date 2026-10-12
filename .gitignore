@@ -29,6 +29,9 @@ Thumbs.db
 *.sln
 *.sw?
 
+# Schemas (draft OGC schemas untracked until officially adopted)
+*.xsd
+
 # Agent & temporary scratch files
 .agents/
 .gemini/
