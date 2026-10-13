@@ -5,8 +5,11 @@
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.9-blue.svg)](https://www.typescriptlang.org/)
 [![Three.js](https://img.shields.io/badge/Three.js-r183-black.svg)](https://threejs.org/)
 [![Vite](https://img.shields.io/badge/Vite-5.4-646CFF.svg)](https://vitejs.dev/)
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-GitHub%20Pages-brightgreen?logo=github)](https://abdoulayediak.github.io/ifc2indoorgml_web/)
 
 > **A 100% client-side, browser-based converter and visualizer transforming Industry Foundation Classes (IFC) BIM models into OGC IndoorGML 2.0 XML with Thematic Layers and InterLayer Connections support.**
+
+**Live Web Demo:** [https://abdoulayediak.github.io/ifc2indoorgml_web/](https://abdoulayediak.github.io/ifc2indoorgml_web/)
 
 Zero installations, zero server uploads, zero backend data leakage—all IFC geometry parsing, spatial hierarchy extraction, dual network generation, and IndoorGML 2.0 serialization happen entirely inside your web browser.
 

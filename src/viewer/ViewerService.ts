@@ -55,7 +55,7 @@ export class ViewerService {
         await this.ifcLoader.setup({
             autoSetWasm: false,
             wasm: {
-                path: "/",
+                path: import.meta.env.BASE_URL,
                 absolute: false
             }
         });
